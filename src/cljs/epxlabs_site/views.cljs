@@ -3,24 +3,33 @@
               [re-com.core :as re-com]))
 
 
-;; home
+;; picture
+(defn home-image []
+  [re-com/box
+   :child
+   [:img {:src "/../images/EPX_logo_outline.png"}]
+   :max-width "100%"
+   :height "auto"
+   ])
 
-(defn home-title []
-  (let [name (re-frame/subscribe [:name])]
-    (fn []
-      [re-com/title
-       :label (str "Hello from " @name ". This is the Home Page.")
-       :level :level1])))
+(defn home-page []
+  [re-com/v-box
+   :children [[home-image]]
+   :size "auto"
+   :align :center
+   :padding "2em"
+   ])
 
 (defn link-to-about-page []
   [re-com/hyperlink-href
    :label "go to About Page"
    :href "#/about"])
 
-(defn home-panel []
+#_(defn home-panel []
   [re-com/v-box
    :gap "1em"
-   :children [[home-title] [link-to-about-page]]])
+   :height "100"
+   :children [[home-image] [link-to-about-page]]])
 
 
 ;; about
@@ -41,10 +50,12 @@
    :children [[about-title] [link-to-home-page]]])
 
 
+
+
 ;; main
 
 (defmulti panels identity)
-(defmethod panels :home-panel [] [home-panel])
+(defmethod panels :home-panel [] [home-page])
 (defmethod panels :about-panel [] [about-panel])
 (defmethod panels :default [] [:div])
 
